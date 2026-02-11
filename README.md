@@ -1,11 +1,13 @@
 # PandadocEx
 
-**TODO: Add description**
+**A Library to Easily Integrate Elixir Projects with the PandaDoc API**
+
+PandadocEx is an Elixir client library for the PandaDoc API, enabling seamless document automation and e-signature workflows.
+It provides a clean, idiomatic Elixir interface for creating, sending, and managing documents, templates, and recipients.
+With built-in support for async operations and error handling, PandadocEx simplifies integration with PandaDoc's document generation platform.
+Perfect for applications requiring contract management, proposal automation, or electronic signature capabilities.
 
 ## Installation
-
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `pandadoc_ex` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
@@ -18,4 +20,3 @@ end
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at <https://hexdocs.pm/pandadoc_ex>.
-
