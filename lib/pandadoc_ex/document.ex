@@ -1,18 +1,12 @@
 defmodule PandadocEx.Document do
-  @moduledoc """
-  Documentation for `PandadocEx.Document`.
-  """
+  alias PandadocEx.Client, as: PandadocAPI
 
-  @doc """
-  Hello world.
 
-  ## Examples
+  def create_document(body_params) do
+    PandadocAPI.send_request("/v1/documents", :post, body_params)
+  end
 
-      iex> PandadocEx.Document.hello()
-      :world
-
-  """
-  def create_document(params) do
-
+  def delete_document(document_id) do
+    PandadocAPI.send_request("/v1/documents/#{document_id}", :delete, %{})
   end
 end
