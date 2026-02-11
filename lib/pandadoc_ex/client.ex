@@ -3,6 +3,7 @@ defmodule PandadocEx.Client do
 
   def get_client() do
     bearer_token = Application.get_env(:pandadoc_ex, :api_key)
+
     middleware = [
       {Tesla.Middleware.BaseUrl, "https://api.pandadoc.com/public"},
       {Tesla.Middleware.Headers, [{"authorization", "API-key #{bearer_token}"}]},
@@ -17,9 +18,11 @@ defmodule PandadocEx.Client do
 
   def send_request(url_path, method, body_params) do
     client = get_client()
-    case Tesla.request(client, method: method, url: url_path, body: body_params)  do
+
+    case Tesla.request(client, method: method, url: url_path, body: body_params) do
       {:ok, %Tesla.Env{status: 200, body: body}} ->
         {:ok, body}
+
       {:ok, %Tesla.Env{status: _status, body: body}} ->
         {:error, body}
     end
