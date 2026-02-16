@@ -1,20 +1,8 @@
 defmodule PandadocEx do
   @moduledoc """
   Documentation for `PandadocEx`.
+  this  module exposes the functions to interact with the PandaDoc API
   """
-
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> PandadocEx.hello()
-      :world
-
-  """
-  def hello do
-    :world
-  end
 
   def create_document_from_template(body_params) do
     PandadocEx.Document.create_document_from_template(body_params)
@@ -43,8 +31,4 @@ defmodule PandadocEx do
   def change_document_status(document_id, body_params) do
     PandadocEx.Document.change_status(document_id, body_params)
   end
-
-
-
-
 end

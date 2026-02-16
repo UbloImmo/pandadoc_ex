@@ -28,5 +28,4 @@ defmodule PandadocEx.Document do
   def change_status(document_id, body_params) do
     PandadocAPI.send_request("/v1/documents/#{document_id}/status", :patch, body_params)
   end
-
 end
