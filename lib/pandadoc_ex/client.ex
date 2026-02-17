@@ -20,7 +20,7 @@ defmodule PandadocEx.Client do
     client = get_client()
 
     case Tesla.request(client, method: method, url: url_path, body: body_params) do
-      {:ok, %Tesla.Env{status: 200, body: body}} ->
+      {:ok, %Tesla.Env{status: status, body: body}} when status in 200..299 ->
         {:ok, body}
 
       {:ok, %Tesla.Env{status: _status, body: body}} ->
