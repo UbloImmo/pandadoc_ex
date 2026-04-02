@@ -31,4 +31,8 @@ defmodule PandadocEx do
   def change_document_status(document_id, body_params) do
     PandadocEx.Document.change_status(document_id, body_params)
   end
+
+  def download_document(document_id) do
+    PandadocEx.Document.download_document(document_id)
+  end
 end

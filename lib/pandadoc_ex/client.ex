@@ -1,19 +1,34 @@
 defmodule PandadocEx.Client do
   use Tesla
 
+  @hackney_adapter {Tesla.Adapter.Hackney, [recv_timeout: 30_000]}
+
   def get_client() do
-    bearer_token = Application.get_env(:pandadoc_ex, :api_key)
+    middleware =
+      common_middleware() ++
+        [
+          Tesla.Middleware.JSON,
+          Tesla.Middleware.Logger
+        ]
 
-    middleware = [
-      {Tesla.Middleware.BaseUrl, "https://api.pandadoc.com/public"},
-      {Tesla.Middleware.Headers, [{"authorization", "API-key #{bearer_token}"}]},
-      Tesla.Middleware.JSON,
-      Tesla.Middleware.Logger
-    ]
+    Tesla.client(middleware, @hackney_adapter)
+  end
 
-    adapter = {Tesla.Adapter.Hackney, [recv_timeout: 30000]}
+  def download_document(document_id) do
+    middleware = common_middleware() ++ [Tesla.Middleware.Logger]
+    client = Tesla.client(middleware, @hackney_adapter)
+    path = "/v1/documents/#{document_id}/download"
 
-    Tesla.client(middleware, adapter)
+    case Tesla.get(client, path) do
+      {:ok, %Tesla.Env{status: 200, body: body}} ->
+        {:ok, body}
+
+      {:ok, %Tesla.Env{status: status}} ->
+        {:error, "Pandadoc HTTP #{status}"}
+
+      {:error, reason} ->
+        {:error, reason}
+    end
   end
 
   def send_request(url_path, method, body_params) do
@@ -26,5 +41,14 @@ defmodule PandadocEx.Client do
       {:ok, %Tesla.Env{status: _status, body: body}} ->
         {:error, body}
     end
+  end
+
+  defp common_middleware() do
+    bearer_token = Application.get_env(:pandadoc_ex, :api_key)
+
+    [
+      {Tesla.Middleware.BaseUrl, "https://api.pandadoc.com/public"},
+      {Tesla.Middleware.Headers, [{"authorization", "API-key #{bearer_token}"}]}
+    ]
   end
 end
